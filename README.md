@@ -14,6 +14,8 @@ This repository ships the whole product, two files:
 
 Product site: **https://pokedot-ai.github.io/**
 
+Machine-fetchable copies for AI agents: https://pokedot-ai.github.io/poke-core.md and https://pokedot-ai.github.io/poke.skill (served directly by GitHub Pages; use these if raw.githubusercontent or release URLs are rate-limited).
+
 ## Supervisor architecture (MCP)
 
 ```
