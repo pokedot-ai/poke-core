@@ -15,11 +15,11 @@ Product site: **https://pokedot-ai.github.io/**
 
 Proprietary product of Privacy+ Technologies Inc., developed by Tariq Chehardy.
 
-The source in this repository is published for inspection only. Reproduction and derivative versions are forbidden.
+**Use on hosted AI platforms is authorized and free for everyone.** Upload the unmodified `poke.skill` to your hosted AI platform (Grok is recommended) and activate it. **Self-hosting requires a purchased Self-Hosted Deployment License.**
 
 - Full license terms: [`LICENSE`](LICENSE)
-- Authorized use: [`AUTHORIZED-USE.md`](AUTHORIZED-USE.md) — the Sovereign Workstation Use License, issued to Tariq Chehardy and the entities he owns (Tariq Chehardy LLC, Privacy+ Technologies Inc.)
+- Owner's authorized use: [`AUTHORIZED-USE.md`](AUTHORIZED-USE.md) — the Sovereign Workstation Use License, issued to Tariq Chehardy and the entities he owns (Tariq Chehardy LLC, Privacy+ Technologies Inc.)
 
-Deployment and use by any other party require a separately issued commercial license from Privacy+ Technologies Inc.
+The source in this repository is published for inspection only. Reproduction and derivative versions are forbidden.
 
 Licensing inquiries: TariqChehardy@gmail.com
