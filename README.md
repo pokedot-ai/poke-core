@@ -15,6 +15,11 @@ Product site: **https://pokedot-ai.github.io/**
 
 Proprietary product of Privacy+ Technologies Inc., developed by Tariq Chehardy.
 
-The source in this repository is published for inspection only. Reproduction and derivative versions are forbidden. Deployment and use require a purchased commercial Sovereign Workstation Use License from Privacy+ Technologies Inc.
+The source in this repository is published for inspection only. Reproduction and derivative versions are forbidden.
+
+- Full license terms: [`LICENSE`](LICENSE)
+- Authorized use: [`AUTHORIZED-USE.md`](AUTHORIZED-USE.md) — the Sovereign Workstation Use License, issued to Tariq Chehardy and the entities he owns (Tariq Chehardy LLC, Privacy+ Technologies Inc.)
+
+Deployment and use by any other party require a separately issued commercial license from Privacy+ Technologies Inc.
 
 Licensing inquiries: TariqChehardy@gmail.com
