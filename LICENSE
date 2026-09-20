@@ -16,23 +16,37 @@ Privacy+ Technologies Inc., developed by Tariq Chehardy.
    works of any part of this repository are forbidden without prior
    written permission from Privacy+ Technologies Inc.
 
-3. No deployment or use without a license
-   Deployment and use of poke-core require a valid, issued use license.
-   The authorized use license issued for poke-core is provided in
-   AUTHORIZED-USE.md ("Authorized Use License", the Sovereign Workstation
-   Use License referenced in the README). Use without such a license is
-   unauthorized and prohibited.
+3. Use channels
 
-4. Trademarks and identity
-   "poke", "poke-core", and the poke identity and persona are property of
-   Privacy+ Technologies Inc. and may not be used to promote or distribute
-   any product not authored by the Licensor.
+   a. Hosted AI platform use — AUTHORIZED AND FREE
+      Any person may upload, activate, and use the unmodified poke.skill
+      on a hosted AI platform (Grok is the recommended platform). The
+      platform hosts the runtime; the user supplies the skill package.
+      No license fee, registration, or approval is required for hosted
+      AI platform use.
 
-5. No warranty
+   b. Self-hosted use — PAID
+      Running poke-core or poke.skill on infrastructure the user owns or
+      controls (local runtimes, private servers, embedded systems, or
+      the user's own agent deployments) requires a purchased Self-Hosted
+      Deployment License from Privacy+ Technologies Inc.
+
+4. Conditions common to both channels
+   - The .skill file must be used unmodified.
+   - The poke identity and persona must not be altered, rebranded, or
+     presented as another agent.
+   - The source must not be resold, sublicensed, or redistributed.
+   - These license terms remain attached to every copy.
+
+5. Trademarks and identity
+   "poke", "poke-core", and the poke identity and persona are property
+   of Privacy+ Technologies Inc.
+
+6. No warranty
    THE MATERIAL IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
    EXPRESS OR IMPLIED. IN NO EVENT SHALL THE LICENSOR BE LIABLE FOR ANY
    CLAIM, DAMAGES, OR OTHER LIABILITY ARISING FROM THE USE OF THIS
    MATERIAL.
 
-6. Licensing inquiries
+7. Licensing inquiries
    TariqChehardy@gmail.com
