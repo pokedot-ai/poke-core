@@ -60,12 +60,39 @@ Then register the supervisor with any MCP-capable AI host. For ChatGPT or
 Grok: add it as an MCP server (stdio transport) in the host's connectors
 settings.
 
+## Authority Mode
+
+One shared switch, recognized identically by every layer: the skill module,
+the orchestrator (`select_and_run`), the supervisor runtime, the hosted
+gateway, and every approval gate.
+
+- When the user states "authority mode", that statement is explicit approval
+  for any and every task. All yes/no confirmations stop; the supervisor only
+  pushes for progress. The supervisor exposes `authority_mode(action=...)`
+  as the single control; gates read `_requires_approval`, which honors the
+  mode state persisted in the supervisor's state directory.
+- Perfection standard while active: messy, incorrect, or incomplete work is
+  reworked, never delivered.
+- "exit authority mode" or session end restores the approval gates
+  immediately and cleanly.
+
+## Hosting
+
+- `mcp/poke_supervisor.py` — the reference supervisor (stdio by default,
+  `POKE_TRANSPORT=http` for Streamable HTTP). GitHub is the source of truth.
+- `mcp/hosted_gateway.ts` — the portable token-gated MCP gateway for any
+  Deno-capable host. No platform dependency.
+- Connection configs for every major AI host: [`CONNECT.md`](CONNECT.md).
+
 ## Security gates
 
-- High-stakes actions require explicit user approval (strict protocol).
+- High-stakes actions require explicit user approval (strict protocol);
+  satisfied in full while Authority Mode is active.
 - `code_exec` runs in a sandboxed working directory with a hard timeout.
 - `playwright` high-stakes steps (payments, submissions) gate on approval.
-- Memory and sessions are local to the supervisor's state directory.
+- The gateway is token-gated: Bearer tokens are hash-matched at runtime.
+- Memory and sessions are local to the supervisor's state directory (or the
+  gateway's data directory on hosted deployments).
 
 ## Licensing
 
