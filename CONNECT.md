@@ -101,6 +101,10 @@ the orchestrator, the supervisor, the gateway, and every approval gate):
 - Supervisor state persists in the supervisor's state directory; the gateway
   keeps the mode for its process lifetime.
 
+## Fetching poke-core as an AI agent
+
+Machine-fetchable copies for AI agents: https://pokedot-ai.github.io/poke-core.md and https://pokedot-ai.github.io/poke.skill (served directly by GitHub Pages; use these if raw.githubusercontent or release URLs are rate-limited).
+
 ## Note on the Base44 instance
 
 A gateway instance also runs on Base44 at
