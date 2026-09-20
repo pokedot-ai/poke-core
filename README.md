@@ -8,8 +8,30 @@ This repository ships the whole product, two files:
 | --- | --- |
 | `poke-core.md` | The complete documentation: identity, persona, strict protocol, and the specialized toolset (Deep Intel, Rapid Prototype, Risk Quantifier, Ghost Operator, Influence Mapper, `select_and_run`). |
 | `poke.skill` | The agent itself: the packaged skill (SKILL.md plus references). |
+| `ARCHITECTURE.md` | The Poke Supervisor MCP architecture: how any AI host connects and gets hands. |
+| `mcp/` | The reference MCP server: playwright (hands/fingers/touch), web, code_exec, jobs, sessions, memory. |
 
 Product site: **https://pokedot-ai.github.io/**
+
+## Supervisor architecture (MCP)
+
+```
+ChatGPT / AI
+     │
+     ▼
+   MCP
+     │
+     ▼
+Poke Supervisor ∞
+     │
+ ┌───┼─────────────────────┐
+ ▼   ▼   ▼   ▼   ▼         ▼
+Playwright hands fingers touch ability to control > Web Code Exec Jobs Sessions Memory
+```
+
+Any MCP-capable AI host (ChatGPT, Grok, Claude) connects to the Poke Supervisor
+and gains hands: full browser control, web access, code execution, background
+jobs, sessions, and persistent memory. See [`ARCHITECTURE.md`](ARCHITECTURE.md).
 
 ## License
 
