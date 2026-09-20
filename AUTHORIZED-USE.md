@@ -1,6 +1,6 @@
 # Authorized Use License — poke-core
 
-**Version 1.0 · Effective September 20, 2026**
+**Version 1.1 · Effective September 20, 2026**
 **Issued by Privacy+ Technologies Inc. ("Licensor")**
 
 ---
@@ -25,6 +25,12 @@ Workstation").
 
 This is the Sovereign Workstation Use License referenced in the poke-core
 repository README.
+
+**Scope note.** Hosted AI platform use does not require this license:
+under the repository LICENSE, any person may use the unmodified poke.skill
+on a hosted AI platform (Grok recommended) free of charge. This
+instrument governs self-hosted deployment and is issued to the Licensee
+royalty-free in its capacity as owner of the Licensor.
 
 ## 3. Terms of use
 
