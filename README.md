@@ -9,7 +9,8 @@ This repository ships the whole product, two files:
 | `poke-core.md` | The complete documentation: identity, persona, strict protocol, and the specialized toolset (Deep Intel, Rapid Prototype, Risk Quantifier, Ghost Operator, Influence Mapper, `select_and_run`). |
 | `poke.skill` | The agent itself: the packaged skill (SKILL.md plus references). |
 | `ARCHITECTURE.md` | The Poke Supervisor MCP architecture: how any AI host connects and gets hands. |
-| `mcp/` | The reference MCP server: playwright (hands/fingers/touch), web, code_exec, jobs, sessions, memory. |
+| `mcp/` | The reference MCP server: playwright (hands/fingers/touch), web, code_exec, jobs, sessions, memory, authority_mode — plus `hosted_gateway.ts`, the portable token-gated MCP gateway. |
+| `CONNECT.md` | Connection configs for every MCP-capable AI host: ChatGPT, Grok, Claude, Cursor. |
 
 Product site: **https://pokedot-ai.github.io/**
 
@@ -31,7 +32,18 @@ Playwright hands fingers touch ability to control > Web Code Exec Jobs Sessions 
 
 Any MCP-capable AI host (ChatGPT, Grok, Claude) connects to the Poke Supervisor
 and gains hands: full browser control, web access, code execution, background
-jobs, sessions, and persistent memory. See [`ARCHITECTURE.md`](ARCHITECTURE.md).
+jobs, sessions, and persistent memory. See [`ARCHITECTURE.md`](ARCHITECTURE.md)
+and [`CONNECT.md`](CONNECT.md).
+
+GitHub is the only home for poke-core. The supervisor and the hosted gateway
+run wherever you run them; no platform is a dependency.
+
+**Authority Mode:** when the user states "authority mode", every layer locks
+to full autonomy — explicit approval for any and every task, no yes/no
+confirmations, progress only under the perfection standard. "exit authority
+mode" restores the approval gates immediately and cleanly. One shared switch
+communicates the same state to the skill, the orchestrator, the supervisor,
+and the gateway, so nothing gets confused.
 
 ## License
 
