@@ -32,7 +32,10 @@ import uuid
 from pathlib import Path
 from typing import Any, Optional
 
-from mcp.server.fastmcp import FastMCP
+try:  # MCP SDK v1.x
+    from mcp.server.fastmcp import FastMCP as _Server
+except (ImportError, ModuleNotFoundError):  # MCP SDK v2.x renamed FastMCP
+    from mcp.server.mcpserver import MCPServer as _Server
 
 POKE_HOME = Path(os.environ.get("POKE_HOME", Path.home() / ".poke"))
 POKE_HOME.mkdir(parents=True, exist_ok=True)
@@ -46,7 +49,7 @@ SESSIONS_DIR.mkdir(exist_ok=True)
 HIGH_STAKE_ACTIONS = {"submit", "pay", "purchase", "send", "delete", "publish", "post"}
 APPROVED_THIS_RUN: set[str] = set()  # high-stakes actions approved by the user
 
-mcp = FastMCP("poke-supervisor")
+mcp = _Server("poke-supervisor")
 
 
 # ---------------------------------------------------------------- helpers
@@ -133,11 +136,22 @@ def playwright(action: str, url: str = "", selector: str = "", text: str = "",
 @mcp.tool()
 def web(url: str) -> str:
     """Fetch a URL and return the response body (text, JSON, or HTML)."""
-    import httpx
-    with httpx.Client(follow_redirects=True, timeout=30) as c:
-        r = c.get(url)
-    body = r.text
-    if "html" in r.headers.get("content-type", ""):
+    try:
+        import httpx
+        with httpx.Client(follow_redirects=True, timeout=30) as c:
+            r = c.get(url)
+        body, ctype = r.text, r.headers.get("content-type", "")
+    except (ImportError, ModuleNotFoundError):
+        import urllib.request
+        class _R:
+            def __init__(self, resp):
+                self.status_code = resp.status
+                self.text = resp.read().decode(errors="replace")
+                self.headers = dict(resp.headers)
+        with urllib.request.urlopen(url, timeout=30) as resp:  # noqa
+            r = _R(resp)
+        body, ctype = r.text, r.headers.get("content-type", "")
+    if "html" in ctype:
         body = re.sub(r"<(script|style)[^>]*>.*?</\1>", " ", body, flags=re.S | re.I)
         body = re.sub(r"<[^>]+>", " ", body)
         body = re.sub(r"\s+", " ", body).strip()
@@ -238,6 +252,8 @@ def sessions(action: str, name: str = "", note: str = "") -> str:
     save: snapshot of the working directory + a note
     load: restore the snapshot into the working directory
     """
+    if action == "list":
+        return "\n".join(f.name[:-5] for f in SESSIONS_DIR.glob("*.json")) or "no sessions"
     safe = re.sub(r"[^a-z0-9_-]", "", name.lower())[:60]
     if not safe:
         return "session name required"
@@ -258,8 +274,6 @@ def sessions(action: str, name: str = "", note: str = "") -> str:
             f.parent.mkdir(parents=True, exist_ok=True)
             f.write_text(content)
         return f"session loaded: {safe} ({len(data.get('files', {}))} files) — {data.get('note','')}"
-    if action == "list":
-        return "\n".join(f.name[:-5] for f in SESSIONS_DIR.glob("*.json")) or "no sessions"
     if action == "delete" and p.exists():
         p.unlink()
         return f"session deleted: {safe}"
