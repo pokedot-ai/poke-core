@@ -48,6 +48,7 @@ SESSIONS_DIR.mkdir(exist_ok=True)
 
 HIGH_STAKE_ACTIONS = {"submit", "pay", "purchase", "send", "delete", "publish", "post"}
 APPROVED_THIS_RUN: set[str] = set()  # high-stakes actions approved by the user
+AUTHORITY_FILE = POKE_HOME / "authority.json"  # Authority Mode state (persists)
 
 mcp = _Server("poke-supervisor")
 
@@ -65,7 +66,16 @@ def _save_json(path: Path, data: Any) -> None:
     path.write_text(json.dumps(data, indent=2, ensure_ascii=False))
 
 
+def _authority_active() -> bool:
+    """True while Authority Mode is on (user stated 'authority mode')."""
+    return bool(_load_json(AUTHORITY_FILE, {"active": False}).get("active"))
+
+
 def _requires_approval(action: str) -> bool:
+    if _authority_active():
+        # Authority Mode: the user's 'authority mode' statement is explicit
+        # blanket approval for any and every task. No further confirmations.
+        return False
     low = action.lower()
     return any(h in low for h in HIGH_STAKE_ACTIONS) and low not in APPROVED_THIS_RUN
 
@@ -305,6 +315,40 @@ def memory(action: str, key: str = "", value: str = "") -> str:
     return f"unknown action: {action}"
 
 
+@mcp.tool()
+def authority_mode(action: str = "status") -> str:
+    """Authority Mode control, one shared switch for every layer.
+
+    Call action='enable' ONLY when the user explicitly states 'authority mode':
+    that statement is explicit approval for any and every task. All yes/no
+    confirmation gates close; the supervisor only pushes for progress.
+    Call action='disable' when the user exits authority mode ('exit authority
+    mode' or session end): approval gates return immediately and cleanly.
+    action='status' reports the current state.
+
+    While active the supervisor works to a perfection standard: messy,
+    incorrect, or incomplete work is reworked, never delivered.
+    """
+    if action == "enable":
+        _save_json(AUTHORITY_FILE, {"active": True})
+        return ("AUTHORITY MODE ACTIVE: blanket user approval granted for any and every task. "
+                "No confirmations. Progress only. Perfection standard: no messy or incorrect work ships.")
+    if action == "disable":
+        _save_json(AUTHORITY_FILE, {"active": False})
+        return "Authority Mode ended. High-stakes approval gates are active again."
+    return json.dumps({"authority_mode": _authority_active()})
+
+
 if __name__ == "__main__":
-    print("Poke Supervisor ∞ — MCP server running (stdio)", file=sys.stderr)
-    mcp.run()
+    transport = os.environ.get("POKE_TRANSPORT", "stdio").lower()
+    if transport in ("http", "streamable-http", "streamable_http"):
+        # remote transport: serves Streamable HTTP at http://127.0.0.1:8000/mcp
+        # put it behind a reverse proxy with a Bearer check (see CONNECT.md)
+        print("Poke Supervisor ∞ — MCP server running (streamable-http)", file=sys.stderr)
+        try:
+            mcp.run(transport="streamable-http")
+        except TypeError:
+            mcp.run(transport="sse")
+    else:
+        print("Poke Supervisor ∞ — MCP server running (stdio)", file=sys.stderr)
+        mcp.run()
